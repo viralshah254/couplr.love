@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../data/grow_repository.dart';
 import '../widgets/habit_challenge_card.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -15,6 +16,7 @@ class HabitChallengesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final challengesAsync = ref.watch(habitChallengesProvider);
 
     return Scaffold(
@@ -24,8 +26,14 @@ class HabitChallengesScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: challengesAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: challengesAsync.when(
         data: (list) {
           if (list.isEmpty) {
             return EmptyState(
@@ -39,7 +47,7 @@ class HabitChallengesScreen extends ConsumerWidget {
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(habitChallengesProvider),
             child: ListView.builder(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               itemCount: list.length,
               itemBuilder: (context, i) {
                 final c = list[i];
@@ -60,7 +68,7 @@ class HabitChallengesScreen extends ConsumerWidget {
           );
         },
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 3)),
             SizedBox(height: AppSpacing.md),
@@ -70,6 +78,7 @@ class HabitChallengesScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(habitChallengesProvider),
+        ),
         ),
       ),
     );

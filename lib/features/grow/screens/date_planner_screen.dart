@@ -6,6 +6,7 @@ import '../data/grow_models.dart';
 import '../data/grow_repository.dart';
 import '../widgets/date_plan_card.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -16,6 +17,7 @@ class DatePlannerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final plansAsync = ref.watch(datePlansProvider);
 
     return Scaffold(
@@ -31,8 +33,14 @@ class DatePlannerScreen extends ConsumerWidget {
             onPressed: () => _showAddDateSheet(context, ref),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: plansAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: plansAsync.when(
         data: (list) {
           final upcoming = list.where((d) => !d.isCompleted).toList();
           if (upcoming.isEmpty) {
@@ -47,7 +55,7 @@ class DatePlannerScreen extends ConsumerWidget {
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(datePlansProvider),
             child: ListView.builder(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               itemCount: upcoming.length,
               itemBuilder: (context, i) {
                 final d = upcoming[i];
@@ -68,7 +76,7 @@ class DatePlannerScreen extends ConsumerWidget {
           );
         },
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 2)),
             SizedBox(height: AppSpacing.md),
@@ -78,6 +86,7 @@ class DatePlannerScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(datePlansProvider),
+        ),
         ),
       ),
     );

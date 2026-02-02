@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../data/community_models.dart';
 import '../data/community_repository.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
 
@@ -18,6 +19,7 @@ class ThreadDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final threadAsync = ref.watch(forumThreadDetailProvider(threadId));
     final postsAsync = ref.watch(forumPostsProvider(threadId));
 
@@ -28,6 +30,8 @@ class ThreadDetailScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.flag_outlined),
@@ -51,14 +55,18 @@ class ThreadDetailScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: threadAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: threadAsync.when(
         data: (thread) {
           if (thread == null) {
             return const Center(child: Text('Thread not found'));
           }
           return postsAsync.when(
             data: (posts) => SingleChildScrollView(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,12 +110,13 @@ class ThreadDetailScreen extends ConsumerWidget {
           );
         },
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [SkeletonLoader(child: SkeletonCard(lineCount: 3))],
         ),
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(forumThreadDetailProvider(threadId)),
+        ),
         ),
       ),
     );

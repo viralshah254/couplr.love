@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../data/community_models.dart';
 import '../data/community_repository.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -20,6 +21,7 @@ class ForumRoomScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final threadsAsync = ref.watch(forumThreadsProvider(roomId));
 
     return Scaffold(
@@ -29,8 +31,14 @@ class ForumRoomScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: threadsAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: threadsAsync.when(
         data: (threads) {
           if (threads.isEmpty) {
             return EmptyState(
@@ -40,7 +48,7 @@ class ForumRoomScreen extends ConsumerWidget {
             );
           }
           return ListView.builder(
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             itemCount: threads.length,
             itemBuilder: (context, i) {
               final t = threads[i];
@@ -55,7 +63,7 @@ class ForumRoomScreen extends ConsumerWidget {
           );
         },
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 2)),
           ],
@@ -63,6 +71,7 @@ class ForumRoomScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(forumThreadsProvider(roomId)),
+        ),
         ),
       ),
     );

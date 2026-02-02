@@ -6,6 +6,7 @@ import '../data/grow_models.dart';
 import '../data/grow_repository.dart';
 import '../widgets/ritual_card.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -16,6 +17,7 @@ class RitualSchedulerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final ritualsAsync = ref.watch(ritualsProvider);
 
     return Scaffold(
@@ -31,8 +33,14 @@ class RitualSchedulerScreen extends ConsumerWidget {
             onPressed: () => _showAddRitualSheet(context, ref),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: ritualsAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: ritualsAsync.when(
         data: (list) {
           if (list.isEmpty) {
             return EmptyState(
@@ -46,7 +54,7 @@ class RitualSchedulerScreen extends ConsumerWidget {
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(ritualsProvider),
             child: ListView.builder(
-              padding: const EdgeInsets.all(AppSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               itemCount: list.length,
               itemBuilder: (context, i) {
                 final r = list[i];
@@ -67,7 +75,7 @@ class RitualSchedulerScreen extends ConsumerWidget {
           );
         },
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 2)),
             SizedBox(height: AppSpacing.md),
@@ -77,6 +85,7 @@ class RitualSchedulerScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(ritualsProvider),
+        ),
         ),
       ),
     );

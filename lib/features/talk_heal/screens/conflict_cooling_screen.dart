@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../data/conflict_repair_repository.dart';
 import '../widgets/cooling_timer_widget.dart';
+import '../../../theme/theme_extensions.dart';
 
 const _sessionId = 'repair-1';
 const _coolingSeconds = 10;
@@ -32,13 +33,19 @@ class _ConflictCoolingScreenState extends ConsumerState<ConflictCoolingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : CoolingTimerWidget(
-              totalSeconds: _coolingSeconds,
-              onComplete: _onComplete,
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : CoolingTimerWidget(
+                totalSeconds: _coolingSeconds,
+                onComplete: _onComplete,
+              ),
+      ),
     );
   }
 }

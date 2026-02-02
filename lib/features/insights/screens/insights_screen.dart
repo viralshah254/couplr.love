@@ -6,6 +6,7 @@ import '../data/insights_repository.dart';
 import '../widgets/bar_chart_section.dart';
 import '../widgets/mood_line_chart.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
 
@@ -15,6 +16,7 @@ class InsightsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final moodAsync = ref.watch(moodHistoryProvider);
     final conflictsAsync = ref.watch(conflictsByWeekProvider);
     final appreciationAsync = ref.watch(appreciationByWeekProvider);
@@ -27,8 +29,14 @@ class InsightsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: RefreshIndicator(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(moodHistoryProvider);
           ref.invalidate(conflictsByWeekProvider);
@@ -36,7 +44,7 @@ class InsightsScreen extends ConsumerWidget {
           ref.invalidate(engagementByWeekProvider);
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -132,6 +140,7 @@ class InsightsScreen extends ConsumerWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

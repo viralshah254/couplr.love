@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:couplr/theme/app_tokens.dart';
+import 'package:couplr/theme/theme_extensions.dart';
 
 import '../data/premium_models.dart';
 import '../data/premium_repository.dart';
@@ -71,15 +72,22 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final repo = ref.watch(premiumRepositoryProvider);
     final offeringAsync = ref.watch(currentOfferingProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = theme.brightness == Brightness.dark;
     final accent = isDark ? AppColors.primaryDarkMode : AppColors.primary;
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Warm gradient behind blur
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+          ),
           // Blurred preview background (premium content tease)
           _BlurredPreviewBackground(isDark: isDark),
           // Content

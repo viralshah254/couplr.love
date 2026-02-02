@@ -8,6 +8,7 @@ import '../widgets/habit_challenge_card.dart';
 import '../widgets/ritual_card.dart';
 import '../widgets/date_plan_card.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
 
@@ -17,6 +18,7 @@ class GrowScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final overviewAsync = ref.watch(growOverviewProvider);
 
     return Scaffold(
@@ -26,13 +28,20 @@ class GrowScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
-      body: overviewAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: overviewAsync.when(
         data: (overview) => RefreshIndicator(
           onRefresh: () async => ref.invalidate(growOverviewProvider),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(AppSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -155,7 +164,7 @@ class GrowScreen extends ConsumerWidget {
           ),
         ),
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 2)),
             SizedBox(height: AppSpacing.md),
@@ -167,6 +176,7 @@ class GrowScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(growOverviewProvider),
+        ),
         ),
       ),
     );

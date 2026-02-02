@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../theme/app_tokens.dart';
 import '../../../theme/theme_extensions.dart';
@@ -53,24 +54,35 @@ class AboutScreen extends StatelessWidget {
           _AboutTile(
             icon: Icons.description_outlined,
             title: 'Terms of Service',
-            onTap: () {
+            onTap: () async {
               HapticFeedback.lightImpact();
-              // Placeholder: open URL or in-app terms
+              final uri = Uri.parse('https://couplr.app/terms');
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
             },
           ),
           _AboutTile(
             icon: Icons.privacy_tip_outlined,
             title: 'Privacy Policy',
-            onTap: () {
+            onTap: () async {
               HapticFeedback.lightImpact();
+              final uri = Uri.parse('https://couplr.app/privacy');
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
             },
           ),
           _AboutTile(
             icon: Icons.help_outline_rounded,
             title: 'Support',
             subtitle: 'Get help or contact us',
-            onTap: () {
+            onTap: () async {
               HapticFeedback.lightImpact();
+              final uri = Uri.parse('https://couplr.app/support');
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
             },
           ),
         ],

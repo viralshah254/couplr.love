@@ -41,6 +41,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Couplr uses your photo library to add photos to journal entries.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Couplr uses the camera to add photos to journal entries.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Couplr uses the microphone to record voice notes for journal entries.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

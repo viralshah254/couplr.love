@@ -6,6 +6,7 @@ import '../data/journal_models.dart';
 import '../data/journal_repository.dart';
 import '../widgets/journal_entry_card.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -23,6 +24,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final datesAsync = ref.watch(journalDatesWithEntriesProvider);
     final entriesAsync = _selectedDate == null
         ? const AsyncValue<List<JournalEntry>>.data([])
@@ -35,8 +37,14 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: Column(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Material(
@@ -46,7 +54,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md,
+                    horizontal: AppSpacing.lg,
                     vertical: AppSpacing.sm,
                   ),
                   child: Row(
@@ -84,7 +92,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
                 child: SkeletonBox(width: double.infinity, height: 40),
               ),
               error: (e, _) => Padding(
-                padding: const EdgeInsets.all(AppSpacing.md),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 child: Text(
                   e.toString(),
                   style: Theme.of(context).textTheme.bodySmall,
@@ -115,7 +123,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
                         );
                       }
                       return ListView.builder(
-                        padding: const EdgeInsets.all(AppSpacing.md),
+                        padding: const EdgeInsets.all(AppSpacing.lg),
                         itemCount: entries.length,
                         itemBuilder: (context, i) {
                           final entry = entries[i];
@@ -130,7 +138,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
                       );
                     },
                     loading: () => ListView(
-                      padding: const EdgeInsets.all(AppSpacing.md),
+                      padding: const EdgeInsets.all(AppSpacing.lg),
                       children: const [
                         SkeletonLoader(child: SkeletonCard(lineCount: 2)),
                       ],
@@ -146,6 +154,7 @@ class _JournalCalendarScreenState extends ConsumerState<JournalCalendarScreen> {
                   ),
           ),
         ],
+        ),
       ),
     );
   }

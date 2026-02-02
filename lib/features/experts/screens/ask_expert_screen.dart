@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../data/experts_repository.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 
 /// Ask-an-Expert: submit a question (optionally to a specific expert).
 class AskExpertScreen extends ConsumerStatefulWidget {
@@ -58,6 +59,7 @@ class _AskExpertScreenState extends ConsumerState<AskExpertScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final expertsAsync = ref.watch(expertsListProvider);
 
     return Scaffold(
@@ -67,9 +69,15 @@ class _AskExpertScreenState extends ConsumerState<AskExpertScreen> {
           icon: const Icon(Icons.close_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.md),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -131,6 +139,7 @@ class _AskExpertScreenState extends ConsumerState<AskExpertScreen> {
                   : const Text('Submit'),
             ),
           ],
+        ),
         ),
       ),
     );

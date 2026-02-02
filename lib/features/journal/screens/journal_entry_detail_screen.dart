@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../data/journal_repository.dart';
 import '../widgets/journal_entry_detail_content.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/confirm_delete_dialog.dart';
 
 /// Journal entry detail: full body, photos, audio, encryption indicator.
@@ -16,6 +17,7 @@ class JournalEntryDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Semantics(
@@ -40,8 +42,15 @@ class JournalEntryDetailScreen extends ConsumerWidget {
             ),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: JournalEntryDetailContent(entryId: entryId),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: JournalEntryDetailContent(entryId: entryId),
+      ),
     );
   }
 

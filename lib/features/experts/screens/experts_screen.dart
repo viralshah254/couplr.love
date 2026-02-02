@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../data/experts_models.dart';
 import '../data/experts_repository.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
 
@@ -14,6 +15,7 @@ class ExpertsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final expertsAsync = ref.watch(expertsListProvider);
     final roomsAsync = ref.watch(liveRoomsProvider);
 
@@ -31,10 +33,16 @@ class ExpertsScreen extends ConsumerWidget {
             onPressed: () => context.push('/experts/questions'),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: expertsAsync.when(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: expertsAsync.when(
         data: (experts) => SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -105,7 +113,7 @@ class ExpertsScreen extends ConsumerWidget {
           ),
         ),
         loading: () => ListView(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           children: const [
             SkeletonLoader(child: SkeletonCard(lineCount: 2)),
             SizedBox(height: AppSpacing.md),
@@ -115,6 +123,7 @@ class ExpertsScreen extends ConsumerWidget {
         error: (e, _) => ErrorState(
           message: e.toString(),
           onRetry: () => ref.invalidate(expertsListProvider),
+        ),
         ),
       ),
     );

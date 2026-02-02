@@ -9,6 +9,7 @@ import '../widgets/journal_entry_detail_content.dart';
 import '../widgets/journal_filters.dart';
 import '../../../core/layout/app_breakpoints.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 import '../../../shared/widgets/error_state.dart';
 import '../../../shared/widgets/empty_state.dart';
 import '../../../shared/widgets/skeleton_loader.dart';
@@ -57,10 +58,10 @@ class JournalScreen extends ConsumerWidget {
                 onRefresh: () async => ref.invalidate(journalEntriesProvider),
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.md,
+                    AppSpacing.lg,
                     0,
-                    AppSpacing.md,
-                    AppSpacing.xl,
+                    AppSpacing.lg,
+                    AppSpacing.xxl,
                   ),
                   itemCount: entries.length,
                   itemBuilder: (context, i) {
@@ -114,6 +115,8 @@ class JournalScreen extends ConsumerWidget {
           )
         : JournalEntryDetailContent(entryId: selectedId);
 
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Journal'),
@@ -127,13 +130,23 @@ class JournalScreen extends ConsumerWidget {
             onPressed: () => context.push('/journal/new'),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
-      body: isWide
-          ? TwoPaneLayout(
-              listPane: listContent,
-              detailPane: detailPane,
-            )
-          : listContent,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: theme.welcomeGradientLight,
+        ),
+        child: isWide
+            ? TwoPaneLayout(
+                listPane: listContent,
+                detailPane: detailPane,
+              )
+            : listContent,
+      ),
     );
   }
 }

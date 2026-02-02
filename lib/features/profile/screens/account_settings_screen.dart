@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 
 /// Account settings: email, password, partner link.
 class AccountSettingsScreen extends StatelessWidget {
@@ -10,7 +11,8 @@ class AccountSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final muted = isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant;
 
     return Scaffold(
@@ -20,10 +22,16 @@ class AccountSettingsScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-        children: [
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: theme.welcomeGradientLight),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          children: [
           Text(
             'Manage your account and partner connection.',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: muted),
@@ -55,6 +63,7 @@ class AccountSettingsScreen extends StatelessWidget {
             },
           ),
         ],
+        ),
       ),
     );
   }

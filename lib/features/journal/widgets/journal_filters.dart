@@ -19,9 +19,14 @@ class JournalFiltersBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = isDark ? AppColors.primaryDarkMode : AppColors.primary;
+    final surface = isDark ? AppColors.surfaceDark : AppColors.surface;
+    final muted = isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
       child: Row(
         children: [
           SegmentedButton<JournalVisibility>(
@@ -35,16 +40,43 @@ class JournalFiltersBar extends StatelessWidget {
               HapticFeedback.selectionClick();
               onFilterChanged(currentFilter.copyWith(visibility: s.first));
             },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return primary;
+                }
+                return surface;
+              }),
+              foregroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return AppColors.onPrimary;
+                }
+                return muted;
+              }),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+              ),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+              ),
+            ),
           ),
           const SizedBox(width: AppSpacing.md),
           if (onCalendarTap != null)
-            IconButton.filled(
-              onPressed: () {
-                HapticFeedback.lightImpact();
-                onCalendarTap!();
-              },
-              icon: const Icon(Icons.calendar_month_rounded),
-              tooltip: 'Calendar',
+            Material(
+              color: primary,
+              borderRadius: BorderRadius.circular(AppRadii.md),
+              child: InkWell(
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  onCalendarTap!();
+                },
+                borderRadius: BorderRadius.circular(AppRadii.md),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  child: Icon(Icons.calendar_month_rounded, color: AppColors.onPrimary, size: 22),
+                ),
+              ),
             ),
         ],
       ),

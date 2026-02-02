@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:couplr/theme/app_tokens.dart';
+import 'package:couplr/theme/theme_extensions.dart';
 
 import '../../../shared/widgets/animated_list_tile.dart';
 
@@ -12,41 +13,51 @@ class MoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final muted = isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant;
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md,
-                AppSpacing.lg,
-                AppSpacing.md,
-                AppSpacing.sm,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'More',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    'Community, experts, insights, and premium.',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: isDark
-                              ? AppColors.onSurfaceVariantDark
-                              : AppColors.onSurfaceVariant,
-                        ),
-                  ),
-                ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: theme.welcomeGradientLight,
+        ),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.xl,
+                  AppSpacing.lg,
+                  AppSpacing.sm,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'More',
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      'Community, experts, insights, and premium — all in one place.',
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: muted,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            sliver: SliverList(
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              sliver: SliverList(
               delegate: SliverChildListDelegate([
                 AnimatedListTile(
                   index: 0,
@@ -116,8 +127,9 @@ class MoreScreen extends StatelessWidget {
               ]),
             ),
           ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
         ],
+        ),
       ),
     );
   }
@@ -143,21 +155,27 @@ class _MoreTile extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: AppSpacing.sm),
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
       elevation: AppElevation.sm,
       shadowColor: (isDark ? AppColors.onSurfaceDark : AppColors.onSurface)
-          .withValues(alpha: 0.08),
+          .withValues(alpha: 0.06),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+      ),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppRadii.lg),
         child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.md),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.md,
+          ),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(AppSpacing.sm),
+                padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: accent.withValues(alpha: 0.15),
+                  color: accent.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(AppRadii.md),
                 ),
                 child: Icon(icon, color: accent, size: 24),

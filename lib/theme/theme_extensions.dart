@@ -9,15 +9,21 @@ extension CouplrThemeExtensions on ThemeData {
   /// Convenience: standard card radius from tokens.
   double get cardRadius => AppRadii.lg;
 
-  /// Warm welcome gradient (light): cream to soft peach.
+  /// Warm welcome gradient: cream → soft blush (light) or dark surface → subtle primary (dark).
   LinearGradient get welcomeGradientLight => LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          brightness == Brightness.light ? AppColors.background : AppColors.backgroundDark,
-          (brightness == Brightness.light ? AppColors.primary : AppColors.primaryDarkMode)
-              .withValues(alpha: 0.06),
-        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: brightness == Brightness.light
+            ? [
+                AppColors.background,
+                AppColors.surfaceVariant,
+                (AppColors.primary).withValues(alpha: 0.08),
+              ]
+            : [
+                AppColors.backgroundDark,
+                AppColors.surfaceDark,
+                (AppColors.primaryDarkMode).withValues(alpha: 0.06),
+              ],
       );
 
   /// Accent gradient for CTAs (primary → primaryLight).

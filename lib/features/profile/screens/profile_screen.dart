@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../theme/app_tokens.dart';
 import '../../../theme/app_theme.dart';
+import '../../../theme/theme_extensions.dart';
 
 /// Profile screen: header + settings (theme mode, notifications, privacy, account, about).
 class ProfileScreen extends ConsumerWidget {
@@ -23,16 +24,25 @@ class ProfileScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-        children: [
-          const SizedBox(height: AppSpacing.sm),
-          _ProfileHeader(isDark: isDark),
-          const SizedBox(height: AppSpacing.xl),
-          _SectionHeader(title: 'Settings'),
-          const SizedBox(height: AppSpacing.sm),
-          _SettingsCard(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: theme.welcomeGradientLight,
+        ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+          children: [
+            const SizedBox(height: AppSpacing.sm),
+            _ProfileHeader(isDark: isDark),
+            const SizedBox(height: AppSpacing.xl),
+            _SectionHeader(title: 'Settings'),
+            const SizedBox(height: AppSpacing.sm),
+            _SettingsCard(
             isDark: isDark,
             children: [
               _SettingsRow(
@@ -91,6 +101,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.xxl),
         ],
+        ),
       ),
     );
   }
@@ -105,14 +116,20 @@ class _ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final primary = isDark ? AppColors.primaryDarkMode : AppColors.primary;
 
+    final muted = isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant;
+
     return Row(
       children: [
         Container(
           width: 72,
           height: 72,
           decoration: BoxDecoration(
-            color: primary.withValues(alpha: 0.2),
+            color: primary.withValues(alpha: 0.14),
             shape: BoxShape.circle,
+            border: Border.all(
+              color: primary.withValues(alpha: 0.25),
+              width: 1.5,
+            ),
           ),
           child: Icon(Icons.person_rounded, size: 36, color: primary),
         ),
@@ -127,11 +144,10 @@ class _ProfileHeader extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xxs),
               Text(
-                'Profile & settings',
+                'Profile & settings — all in one place.',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: isDark
-                          ? AppColors.onSurfaceVariantDark
-                          : AppColors.onSurfaceVariant,
+                      color: muted,
+                      height: 1.35,
                     ),
               ),
             ],
@@ -174,6 +190,10 @@ class _SettingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: AppElevation.sm,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.lg),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
         child: Column(

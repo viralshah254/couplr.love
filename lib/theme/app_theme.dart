@@ -76,11 +76,20 @@ class AppThemeData {
       ),
       cardTheme: CardThemeData(
         color: AppColors.surface,
-        elevation: AppElevation.md,
-        shadowColor: AppColors.onSurface.withValues(alpha: 0.08),
+        elevation: AppElevation.sm,
+        shadowColor: AppColors.onSurface.withValues(alpha: 0.06),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.lg)),
         margin: const EdgeInsets.all(AppSpacing.sm),
         clipBehavior: Clip.antiAlias,
+      ),
+      listTileTheme: ListTileThemeData(
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+      ),
+      dividerTheme: DividerThemeData(
+        color: AppColors.outlineVariant,
+        thickness: 1,
+        space: 1,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -161,11 +170,20 @@ class AppThemeData {
       ),
       cardTheme: CardThemeData(
         color: AppColors.surfaceDark,
-        elevation: AppElevation.md,
-        shadowColor: AppColors.onSurfaceDark.withValues(alpha: 0.15),
+        elevation: AppElevation.sm,
+        shadowColor: AppColors.onSurfaceDark.withValues(alpha: 0.12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.lg)),
         margin: const EdgeInsets.all(AppSpacing.sm),
         clipBehavior: Clip.antiAlias,
+      ),
+      listTileTheme: ListTileThemeData(
+        contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: AppSpacing.xs),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.md)),
+      ),
+      dividerTheme: DividerThemeData(
+        color: AppColors.onSurfaceVariantDark.withValues(alpha: 0.3),
+        thickness: 1,
+        space: 1,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

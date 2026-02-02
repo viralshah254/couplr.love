@@ -3,49 +3,49 @@ import 'package:flutter/material.dart';
 /// Design tokens: colors, typography, spacing, radii, elevation, motion.
 /// Semantic roles and theming extensions build on these.
 
-// ——— Colors (slightly darker, clean palette — soft rose + sage-teal)
+// ——— Colors (warm, welcoming palette — blush rose + sage + cream)
 class AppColors {
   AppColors._();
 
-  // Primary: soft rose — a bit deeper
-  static const Color primary = Color(0xFFB86B76);
-  static const Color primaryLight = Color(0xFFD4959E);
-  static const Color primaryDark = Color(0xFF965660);
+  // Primary: warm blush rose — inviting, not harsh
+  static const Color primary = Color(0xFFC17B86);
+  static const Color primaryLight = Color(0xFFE0A5AE);
+  static const Color primaryDark = Color(0xFFA05D68);
 
-  // Secondary: sage-teal — a bit deeper
-  static const Color secondary = Color(0xFF5C7D6E);
-  static const Color secondaryLight = Color(0xFF7D9D8E);
-  static const Color secondaryDark = Color(0xFF4A6658);
+  // Secondary: soft sage — calm, supportive
+  static const Color secondary = Color(0xFF6B8B7A);
+  static const Color secondaryLight = Color(0xFF8FAA9A);
+  static const Color secondaryDark = Color(0xFF556D5E);
 
-  // Surfaces: slightly darker warm grey (not bright white)
-  static const Color surface = Color(0xFFF2EFEA);
-  static const Color surfaceVariant = Color(0xFFE8E4DE);
-  static const Color background = Color(0xFFEDE9E4);
+  // Surfaces: warm cream / ivory (welcoming, easy on the eyes)
+  static const Color surface = Color(0xFFF8F6F2);
+  static const Color surfaceVariant = Color(0xFFEFEBE6);
+  static const Color background = Color(0xFFF5F1EC);
 
   static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color onSecondary = Color(0xFF2D2D2A);
-  static const Color onSurface = Color(0xFF2A2826);
-  static const Color onSurfaceVariant = Color(0xFF5A5754);
-  static const Color onBackground = Color(0xFF2A2826);
+  static const Color onSecondary = Color(0xFF2A2D2A);
+  static const Color onSurface = Color(0xFF2C2A28);
+  static const Color onSurfaceVariant = Color(0xFF5E5B58);
+  static const Color onBackground = Color(0xFF2C2A28);
 
   static const Color error = Color(0xFFC45C5C);
   static const Color onError = Color(0xFFFFFFFF);
 
-  static const Color outline = Color(0xFFCEC9C2);
-  static const Color outlineVariant = Color(0xFFE0DCD6);
+  static const Color outline = Color(0xFFD8D3CC);
+  static const Color outlineVariant = Color(0xFFE8E4DE);
 
-  // Accent: soft honey gold
-  static const Color accent = Color(0xFFB8956A);
-  static const Color accentLight = Color(0xFFD4BC90);
+  // Accent: soft honey / gold — warmth and positivity
+  static const Color accent = Color(0xFFC4A574);
+  static const Color accentLight = Color(0xFFDDC9A0);
 
-  // Dark mode: soft charcoal
-  static const Color primaryDarkMode = Color(0xFFD4959E);
-  static const Color surfaceDark = Color(0xFF1E1D26);
-  static const Color surfaceVariantDark = Color(0xFF282730);
-  static const Color backgroundDark = Color(0xFF16151C);
-  static const Color onSurfaceDark = Color(0xFFF0EDEA);
-  static const Color onSurfaceVariantDark = Color(0xFFA8A5B0);
-  static const Color accentDarkMode = Color(0xFFD4BC90);
+  // Dark mode: warm charcoal (not cold blue-grey)
+  static const Color primaryDarkMode = Color(0xFFE0A5AE);
+  static const Color surfaceDark = Color(0xFF25232C);
+  static const Color surfaceVariantDark = Color(0xFF2E2C36);
+  static const Color backgroundDark = Color(0xFF1C1B22);
+  static const Color onSurfaceDark = Color(0xFFF2EFEA);
+  static const Color onSurfaceVariantDark = Color(0xFFB0ADB5);
+  static const Color accentDarkMode = Color(0xFFDDC9A0);
 }
 
 // ——— Typography (serif headlines = warmth; rounded sans = friendly)
@@ -146,19 +146,19 @@ class AppSpacing {
   static const double xxl = 48;
 }
 
-// ——— Radii (rounded cards)
+// ——— Radii (rounded, friendly cards and chips)
 class AppRadii {
   AppRadii._();
 
-  static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
+  static const double xs = 6;
+  static const double sm = 10;
+  static const double md = 14;
+  static const double lg = 18;
   static const double xl = 24;
   static const double full = 9999;
 }
 
-// ——— Elevation
+// ——— Elevation (soft shadows for depth without harshness)
 class AppElevation {
   AppElevation._();
 

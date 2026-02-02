@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../features/notifications/data/notification_provider.dart';
 import '../../../theme/app_tokens.dart';
+import '../../../theme/theme_extensions.dart';
 
 /// Notifications settings: daily reminders (4 smart notifications/day), quiet hours.
 class NotificationsSettingsScreen extends ConsumerStatefulWidget {
@@ -42,7 +43,8 @@ class _NotificationsSettingsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final muted = isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant;
 
     return Scaffold(
@@ -52,12 +54,21 @@ class _NotificationsSettingsScreenState
           icon: const Icon(Icons.arrow_back_rounded),
           onPressed: () => context.pop(),
         ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-              children: [
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: theme.welcomeGradientLight,
+        ),
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: AppSpacing.md),
+                children: [
                 Text(
                   'Smart reminders to open Couplr — catchy, urgent, and actionable. Up to 4 a day.',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: muted),
@@ -101,6 +112,7 @@ class _NotificationsSettingsScreenState
                 ),
               ],
             ),
+      ),
     );
   }
 }

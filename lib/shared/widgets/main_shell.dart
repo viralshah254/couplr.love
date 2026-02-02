@@ -63,11 +63,12 @@ class MainShellScreen extends ConsumerWidget {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: isDark ? AppColors.surfaceDark : AppColors.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadii.xl)),
           boxShadow: [
             BoxShadow(
               color: (isDark ? AppColors.onSurfaceDark : AppColors.onSurface)
                   .withValues(alpha: 0.06),
-              blurRadius: 8,
+              blurRadius: 12,
               offset: const Offset(0, -2),
             ),
           ],
@@ -131,8 +132,9 @@ class _NavBarTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = isDark ? AppColors.primaryDarkMode : AppColors.primary;
     final color = selected
-        ? (isDark ? AppColors.primaryDarkMode : AppColors.primary)
+        ? primary
         : (isDark ? AppColors.onSurfaceVariantDark : AppColors.onSurfaceVariant);
 
     return Semantics(
@@ -170,7 +172,7 @@ class _NavBarTile extends StatelessWidget {
                           minHeight: 14,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.error,
+                          color: primary,
                           borderRadius: BorderRadius.circular(AppRadii.full),
                         ),
                         child: Text(
@@ -178,7 +180,7 @@ class _NavBarTile extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.onError,
+                            color: AppColors.onPrimary,
                           ),
                         ),
                       ),
